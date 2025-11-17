@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const authMiddle = (req, res) => {
+export const authMiddle = (req, res) => {
     const token = req.headers.authorization   // for this to work... you need to set the headers globally as just token not Bearer <token>
      
     if (!token) {
