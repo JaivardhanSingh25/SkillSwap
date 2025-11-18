@@ -1,6 +1,6 @@
 import express from 'express';
-import { authMiddle } from '../middlewares/auth';
-import { createReq, acceptReq, declineReq, getConnections, getReq } from '../controllers/requestControllers';
+import { authMiddle } from '../middlewares/auth.js';
+import { createReq, acceptReq, declineReq, getConnections, getReq } from '../controllers/requestControllers.js';
 
 
 const requestRouter = express.Router();

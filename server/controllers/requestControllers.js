@@ -1,4 +1,4 @@
-import Request from "../models/requestModel";
+import Request from "../models/requestModel.js";
 
 
 
