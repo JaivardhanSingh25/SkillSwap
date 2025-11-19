@@ -1,8 +1,27 @@
 import React from 'react'
-
+import { Route, Routes } from 'react-router-dom'
+import Home from './pages/Home'
+import Layout from './pages/admin/Layout'
+import Search from './pages/admin/Layout'
+import Requests from './pages/admin/Layout'
+import Connections from './pages/admin/Layout'
+import EditProfile from './pages/admin/Layout'
 const App = () => {
+  
+  
   return (
-    <div>App</div>
+    <div>
+        <Routes>
+          <Route path='/' element = {<Home/>}></Route>
+          <Route path='/signup' element = {<Layout/>}></Route>
+            <Route path='/admin' element={true ? <Layout/> : <Login/>}>
+              <Route index element={<Search/>}/>
+              <Route path='requests' element = {<Requests/>}/>
+              <Route path='connections' element = {<Connections/>}/>
+              <Route path='editProfile' element = {<EditProfile/>}/>
+          </Route>
+        </Routes>
+    </div>
   )
 }
 
