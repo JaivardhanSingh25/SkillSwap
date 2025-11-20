@@ -2,10 +2,10 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Layout from './pages/admin/Layout'
-import Search from './pages/admin/Layout'
-import Requests from './pages/admin/Layout'
-import Connections from './pages/admin/Layout'
-import EditProfile from './pages/admin/Layout'
+import Search from './pages/admin/Search'
+import Requests from './pages/admin/Requests'
+import Connections from './pages/admin/Connections'
+import EditProfile from './pages/admin/EditProfile'
 import AuthLayout from './pages/AuthLayout'
 const App = () => {
   
@@ -15,7 +15,7 @@ const App = () => {
         <Routes>
           <Route path='/' element = {<Home/>}></Route>
           <Route path='/signup' element = {<AuthLayout/>}></Route>
-            <Route path='/admin' element={false ? <Layout/> : <AuthLayout/>}>
+            <Route path='/admin' element={true ? <Layout/> : <AuthLayout/>}>
               <Route index element={<Search/>}/>
               <Route path='requests' element = {<Requests/>}/>
               <Route path='connections' element = {<Connections/>}/>
