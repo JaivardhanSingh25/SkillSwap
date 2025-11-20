@@ -6,6 +6,7 @@ import Search from './pages/admin/Layout'
 import Requests from './pages/admin/Layout'
 import Connections from './pages/admin/Layout'
 import EditProfile from './pages/admin/Layout'
+import AuthLayout from './pages/AuthLayout'
 const App = () => {
   
   
@@ -13,8 +14,8 @@ const App = () => {
     <div>
         <Routes>
           <Route path='/' element = {<Home/>}></Route>
-          <Route path='/signup' element = {<Layout/>}></Route>
-            <Route path='/admin' element={true ? <Layout/> : <Login/>}>
+          <Route path='/signup' element = {<AuthLayout/>}></Route>
+            <Route path='/admin' element={false ? <Layout/> : <AuthLayout/>}>
               <Route index element={<Search/>}/>
               <Route path='requests' element = {<Requests/>}/>
               <Route path='connections' element = {<Connections/>}/>
