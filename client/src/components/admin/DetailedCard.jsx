@@ -1,15 +1,15 @@
-import React from 'react';
+import React from "react";
 
-// DEFAULT CARD - For Search & Requests
-export const UserCard = ({ user }) => {
+
+export const UserCardDetailed = ({ user }) => {
   return (
     <div className="bg-white rounded-xl shadow-md border hover:shadow-lg transition-shadow duration-300 overflow-hidden">
       
       {/* Header with Avatar */}
       <div className="bg-linear-to-r from-gray-50 to-gray-100 p-6 flex items-center gap-4">
         {/* Avatar circle with initials - color generated from name */}
-        <div className="w-16 h-16 rounded-full bg-blue-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
-          PS
+        <div className="w-16 h-16 rounded-full bg-purple-500 flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
+          RV
         </div>
         
         <div className="flex-1 min-w-0">
@@ -56,11 +56,27 @@ export const UserCard = ({ user }) => {
           </div>
         </div>
 
+        {/* Contact Info - Only in Detailed Card */}
+        <div className="space-y-2 pt-4 border-t">
+          <div className="flex items-center gap-2 text-gray-700">
+            <span className="text-sm">📧</span>
+            <a href={`mailto:${user.email}`} className="text-sm hover:text-blue-600 truncate">
+              {user.email}
+            </a>
+          </div>
+          <div className="flex items-center gap-2 text-gray-700">
+            <span className="text-sm">📱</span>
+            <a href={`tel:${user.phone}`} className="text-sm hover:text-blue-600">
+              {user.phone}
+            </a>
+          </div>
+        </div>
+
         {/* Action Button - Add your onClick handler here */}
         <button
           className="w-full mt-4 px-4 py-2 bg-black text-white rounded-lg hover:opacity-80 transition font-medium"
         >
-          View Profile
+          Message
         </button>
       </div>
     </div>

@@ -1,9 +1,15 @@
 import React from 'react'
 import { assets } from '../assets/assets'
 import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const path = location.pathname;
+
+  const isLogin = path.includes("admin");
+  const isSignup = path.includes("signup");
 
   return (
     <div className="w-full flex justify-between items-center py-4 px-6 sm:px-16 xl:px-28">
@@ -19,26 +25,43 @@ const Navbar = () => {
       {/* Buttons */}
       <div className="flex gap-3">
 
+        {/* Home BUTTON */}
+        {<button className="flex items-center gap-2 rounded-full text-xs sm:text-sm bg-black text-white px-5 py-2 
+            m:px-8 sm:py-2 font-semibold transition hover:opacity-80 cursor-pointer">
+            Home
+          
+        </button>}
+        
+        {/* About Us BUTTON */}
+        {<button className="flex items-center gap-2 rounded-full text-xs sm:text-sm bg-black text-white px-5 py-2 sm:px-8 
+            sm:py-2 font-semibold transition hover:opacity-80 cursor-pointer"> 
+            About Us
+            
+          </button>}
+
         {/* LOGIN BUTTON */}
-        <button 
+        {isLogin ? null : <button 
           onClick={() => navigate('/admin')} 
           className="flex items-center gap-2 rounded-full text-xs sm:text-sm bg-black text-white px-5 py-2 
           sm:px-8 sm:py-2 font-semibold transition hover:opacity-80 cursor-pointer"
         >
-          {false ? 'Dashboard' : 'Login'}
-          <img src={assets.arrow} alt="arrow" className="w-3" />
-        </button>
+          Login
+          
+        </button>}
+        
 
         {/* SIGNUP BUTTON */}
-        <button 
+        {isSignup ? null : <button 
           onClick={() => navigate('/signup')} 
           className="flex items-center gap-2 rounded-full text-xs sm:text-sm bg-black text-white px-5 py-2 sm:px-8 
           sm:py-2 font-semibold transition hover:opacity-80 cursor-pointer"
         >
           Sign Up
-          <img src={assets.arrow} alt="arrow" className="w-3" />
+          
         </button>
-
+}
+        
+        
       </div>
 
     </div>

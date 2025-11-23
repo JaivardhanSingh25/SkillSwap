@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UserCard from "../../components/admin/UserCard"; // <-- card component
+import {UserCard} from "../../components/admin/UserCard"; // <-- card component
 
 const Search = () => {
   const [skill, setSkill] = useState("");
@@ -25,10 +25,10 @@ const Search = () => {
   };
 
   return (
-    <div className="flex flex-col w-full p-8">
+    <div className="flex flex-col w-full ">
 
       {/* Search Form */}
-      <div className="bg-white p-6 rounded-xl shadow-md border w-full max-w-3xl">
+      <div className="bg-white p-6 rounded-xl shadow-md border w-full ">
         <h2 className="text-2xl font-bold mb-4">Search People</h2>
 
         <div className="flex flex-col md:flex-row gap-4">
