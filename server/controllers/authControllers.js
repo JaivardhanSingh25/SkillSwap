@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 
+
 export const signupController = async (req, res) => {
     try{
         const {name, age, email, phone, password, skillKnown, skillWanted, location} = req.body;

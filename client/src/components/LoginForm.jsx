@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import api from '../api/axios';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../slices/authSlice';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -6,15 +9,36 @@ const LoginForm = () => {
     password: "",
   });
 
+
+  const dispatch = useDispatch();
+
   function changeHandler(e) {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
 
-    console.log("Login payload:", formData);
+    try{
+      const {data} = await api.post('/api/auth/login', formData)        // api call
+      
+      //console.log(data)
+
+      const token = data.token;
+
+      localStorage.setItem('token', token);
+
+      api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      dispatch(loginSuccess(token));
+
+    }
+
+    catch(err){
+      console.log(err.message)
+    }
+    
+    //console.log("Login payload:", formData);
 
     // Later:
     // axios.post("/api/auth/login", formData)

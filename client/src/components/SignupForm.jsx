@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import api from "../api/axios";
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const SignupForm = () => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     name: "",
     age: "",
@@ -17,17 +23,54 @@ const SignupForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
-  function submitHandler(e) {
+  async function submitHandler(e) {
     e.preventDefault();
-
+    //console.log(import.meta.env.VITE_BASE_URL)
     const payload = {
       ...formData,
+      age: Number(formData.age),                     // This is because our backend expects a number from the frontend 
+      phone: Number(formData.phone),
       skillKnown: formData.skillKnown.split(",").map(s => s.trim()),
       skillWanted: formData.skillWanted.split(",").map(s => s.trim()),
     };
 
-    console.log("Final signup payload:", payload);
+    try {
+    const { data } = await api.post('/api/auth/signup', payload)
+    toast.success(data.message)
+    setFormData({
+    name: "",
+    age: "",
+    email: "",
+    phone: "",
+    password: "",
+    skillKnown: "",
+    skillWanted: "",
+    location: "",
+  })
+    } 
+    catch (err) {
+      if (err.response && err.response.status === 409) {                   // This response is how axios works internally man.... 
+        toast.error(err.response.data.message) // "User already exists"
+      } else {
+        toast.error("Something went wrong")
+      }
+      setFormData({
+    name: "",
+    age: "",
+    email: "",
+    phone: "",
+    password: "",
+    skillKnown: "",
+    skillWanted: "",
+    location: "",
+  })
+}
+    
+    
+    // console.log("Final signup payload:", payload);
   }
+
+
 
   return (
     <div className="w-full bg-white rounded-3xl shadow-xl p-10 sm:p-12">
@@ -155,14 +198,14 @@ const SignupForm = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-linear-to-r from-blue-500 to-indigo-600 text-white py-3.5 rounded-xl font-semibold text-base shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-200 mt-6"
+          className="cursor-pointer w-full bg-linear-to-r from-blue-500 to-indigo-600 text-white py-3.5 rounded-xl font-semibold text-base shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transform hover:scale-[1.02] transition-all duration-200 mt-6"
         >
           Sign Up
         </button>
 
         {/* Sign In Link */}
         <p className="text-center text-sm text-gray-600 mt-5">
-          Already have an account? <span className="text-blue-600 font-semibold cursor-pointer hover:underline">Sign in</span>
+          Already have an account? <span onClick = {() => navigate('/admin')}  className="text-blue-600 font-semibold cursor-pointer hover:underline">Sign in</span>
         </p>
 
       </form>
