@@ -1,5 +1,5 @@
 import Request from "../models/requestModel.js";
-
+import User from "../models/userModel.js";
 
 
 
@@ -40,21 +40,28 @@ export const createReq = async (req, res) => {
 
 
 export const acceptReq = async (req, res) => {
-    try{
-        const {id} = req.params;                                   // document ki id hai bhai 
-        await Request.findByIdAndUpdate(id, {accepted: true});
-        return res.status(200).json({
-            success: true,
-            message: 'Accepted'
-        })
-    }
-    catch(error){
-        return res.status(500).json({
-            success: false,
-            message: 'Internal Server Error'
-    })}
-}
+    try {
+        const { id } = req.params;
 
+        const requestDoc = await Request.findById(id);
+        if (!requestDoc) return res.status(404).json({ success: false, message: "Request not found" });
+
+        const senderId = requestDoc.requestFrom;
+        const receiverId = requestDoc.requestTo;
+
+        // Mark request as accepted
+        await Request.findByIdAndUpdate(id, { accepted: true });
+
+        // Update BOTH users' connections
+        await User.findByIdAndUpdate(senderId, { $addToSet: { connections: receiverId } });
+        await User.findByIdAndUpdate(receiverId, { $addToSet: { connections: senderId } });
+
+        return res.status(200).json({ success: true, message: 'Request Accepted & Both users connected' });
+
+    } catch (error) {
+        return res.status(500).json({ success: false, message: 'Internal Server Error' });
+    }
+};
 
 
 export const declineReq = async (req, res) => {
@@ -79,13 +86,10 @@ export const declineReq = async (req, res) => {
 export const getConnections = async (req, res) => {
     try{
         const {userId} = req.params;
-        const connections = await Request.find({requestTo: userId, accepted: true}).populate("requestFrom", "name email skillKnown");
-        // even if the requests are empty... we will handle it in the frontend during rendering
-        return res.status(200).json({
-            success: true,
-            message: 'Mil gye oiii',
-            connections
-        })
+        const user = await User.findById(userId)
+    .populate("connections", "name age email skillKnown skillWanted phone location");
+
+return res.status(200).json({ success: true, connections: user.connections });
     }
     catch(error){
         return res.status(500).json({

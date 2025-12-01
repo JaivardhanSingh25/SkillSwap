@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
     passHash: {type: String, required: true},
     skillKnown: {type: [String], default: []},
     skillWanted: {type: [String], default: []},
-    location: {type: String}
+    location: {type: String},
+    connections: [{ type: mongoose.Schema.Types.ObjectId , ref: 'user'}]      // $addToSet & $pull will work here for adding/removing friends
 }, {timestamps: true})
 
 

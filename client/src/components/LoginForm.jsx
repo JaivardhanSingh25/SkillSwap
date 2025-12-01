@@ -26,11 +26,12 @@ const LoginForm = () => {
       //console.log(data)
 
       const token = data.token;
+      const userID = data.userID;                      // so this works man.. i got the userID in here 
 
-      localStorage.setItem('token', token);
+      
 
       api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      dispatch(loginSuccess(token));
+      dispatch(loginSuccess({token, userID}));
 
     }
 

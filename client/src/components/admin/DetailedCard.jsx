@@ -15,8 +15,7 @@ export const UserCardDetailed = ({ user }) => {
         <div className="flex-1 min-w-0">
           <h3 className="text-xl font-bold text-gray-800 truncate">{user.name}</h3>
           <p className="text-gray-600 text-sm">{user.age} years old</p>
-        </div>
-      </div>
+        </div>      </div>
 
       {/* Body */}
       <div className="p-6 space-y-4">

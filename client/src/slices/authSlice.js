@@ -5,17 +5,23 @@ const authSlice = createSlice({
   initialState: {
     token: localStorage.getItem('token') || null,
     isLoggedIn: !!localStorage.getItem('token'),
+    userID: null
   },
   reducers: {
     loginSuccess: (state, action) => {
-      state.token = action.payload;
+      state.token = action.payload.token;
       state.isLoggedIn = true;
-      localStorage.setItem('token', action.payload);
+      state.userID = action.payload.userID;
+      localStorage.setItem('userID', action.payload.userID);
+      localStorage.setItem('token', action.payload.token);
     },
     logout: (state) => {
       state.token = null;
       state.isLoggedIn = false;
+      state.userID = null;
       localStorage.removeItem('token');
+      localStorage.removeItem('userID');
+
     }
   }
 });

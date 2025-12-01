@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { UserCard } from "../../components/admin/UserCard";
+import api from "../../api/axios";
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
+  
+  const userID = localStorage.getItem('userID');
 
   // Fetch pending requests when component mounts
   useEffect(() => {
@@ -12,26 +15,29 @@ const Requests = () => {
 
   const fetchRequests = async () => {
     setLoading(true);
+    
+    
     try {
-      const res = await fetch("http://localhost:5000/api/requests");
-      const data = await res.json();
+      const {data} = await api.get(`/api/request/pending/${userID}`);
       setRequests(data.requests || []);
-    } catch (error) {
+    } 
+    
+    
+    catch (error) {
       console.error("Failed to fetch requests", error);
     }
     setLoading(false);
   };
 
   // Handle accept request
-  const handleAccept = async (userId) => {
+  
+  const handleAccept = async (requestId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/requests/accept/${userId}`, {
-        method: "POST",
-      });
+      const {data} = await api.put(`/api/request/${requestId}/accept`);
       
-      if (res.ok) {
+      if (data.success) {
         // Remove from requests list after accepting
-        setRequests(requests.filter(user => user._id !== userId));
+        setRequests(requests.filter(request => request._id !== requestId));
         alert("Request accepted!");
       }
     } catch (error) {
@@ -40,15 +46,13 @@ const Requests = () => {
   };
 
   // Handle reject request
-  const handleReject = async (userId) => {
+  const handleReject = async (requestId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/requests/reject/${userId}`, {
-        method: "POST",
-      });
+      const {data} = await api.delete(`/api/request/${requestId}/decline`);
       
-      if (res.ok) {
+      if (data.success) {
         // Remove from requests list after rejecting
-        setRequests(requests.filter(user => user._id !== userId));
+        setRequests(requests.filter(request => request._id !== requestId));
         alert("Request rejected!");
       }
     } catch (error) {
@@ -70,20 +74,20 @@ const Requests = () => {
         {loading ? (
           <p className="text-gray-600">Loading requests...</p>
         ) : requests.length > 0 ? (
-          requests.map((user) => (
-            <div key={user._id} className="relative">
-              <UserCard user={user} />
+          requests.map((request) => (
+            <div key={request._id} className="relative">
+              <UserCard user={request.requestFrom} />
               
               {/* Accept/Reject Buttons Overlay */}
               <div className="flex gap-2 mt-4">
                 <button
-                  onClick={() => handleAccept(user._id)}
+                  onClick={() => handleAccept(request._id)}
                   className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
                 >
                   Accept
                 </button>
                 <button
-                  onClick={() => handleReject(user._id)}
+                  onClick={() => handleReject(request._id)}
                   className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
                 >
                   Reject

@@ -67,11 +67,11 @@ export const updateUserInfo = async (req, res) => {
 
 export const searchUsers = async (req, res) => {
     try{
-        const {skills, location} = req.query;
-        const arraySkills = skills.split(',').map(s => s.trim());               // trim has been used so that there are no spaces.... used in comparison
+        const {skill, location} = req.query;
+        const arraySkills = skill.split(',').map(s => s.trim());               // trim has been used so that there are no spaces.... used in comparison
         const users = await User.find({
             location: location,
-            skillKnown: { $in: arraySkills }                                    // isme bas wo hai ki naa skillKnown ka koi element arraySkills mei ho tab..
+            skillKnown: { $in: arraySkills }                                    // isme bas wo hai ki skillKnown ka koi element arraySkills mei ho tab..
 
         })
         if (users.length === 0){

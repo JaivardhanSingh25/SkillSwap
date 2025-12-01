@@ -39,7 +39,7 @@ export const loginController = async (req, res) => {
         const {email, password} = req.body;
         const user = await User.findOne({email});
         if (!user) {
-            return res.json({
+            return res.status(404).json({
                 success: false,
                 message: 'User does not Exist. Proceed to Signup.',                                      
             })
@@ -53,13 +53,14 @@ export const loginController = async (req, res) => {
             return res.status(200).json({
                 success: true,
                 message: 'Logged In',
-                token
+                token,
+                userID: user._id
             })
 
 
         }
         else{
-            return res.json({
+            return res.status(401).json({
                 success: false,
                 message: 'Wrong Password'
             })

@@ -1,7 +1,21 @@
 import React from 'react';
+import api from '../../api/axios';
 
 // DEFAULT CARD - For Search & Requests
 export const UserCard = ({ user }) => {
+  
+  const recieve = user._id;
+  const send = localStorage.getItem("userID")
+  
+
+  const requestHandler = async() =>{
+    console.log(recieve)
+    console.log(send)
+    const {data} = await api.post("/api/request", {send, recieve})
+
+  }
+  
+
   return (
     <div className="bg-white rounded-xl shadow-md border hover:shadow-lg transition-shadow duration-300 overflow-hidden">
       
@@ -57,10 +71,10 @@ export const UserCard = ({ user }) => {
         </div>
 
         {/* Action Button - Add your onClick handler here */}
-        <button
+        <button onClick={requestHandler}
           className="w-full mt-4 px-4 py-2 bg-black text-white rounded-lg hover:opacity-80 transition font-medium"
         >
-          View Profile
+          Send Request
         </button>
       </div>
     </div>

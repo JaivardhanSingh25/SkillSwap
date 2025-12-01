@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { UserCardDetailed } from "../../components/admin/DetailedCard";
+import api from "../../api/axios";
 
 const Connections = () => {
-  const [connections, setConnections] = useState([]);
+  const [cleaned, setCleaned] = useState([]);
   const [loading, setLoading] = useState(true);
 
   // Fetch connections when component mounts
@@ -13,10 +14,19 @@ const Connections = () => {
   const fetchConnections = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/connections");
-      const data = await res.json();
-      setConnections(data.connections || []);
-    } catch (error) {
+      const userID = localStorage.getItem('userID')
+
+      const {data} = await api.get(`/api/request/accepted/${userID}`)
+      console.log(data)
+      
+      const cleaned = data.connections;
+      
+      setCleaned(cleaned || []);
+      
+    
+    } 
+    
+    catch (error) {
       console.error("Failed to fetch connections", error);
     }
     setLoading(false);
@@ -35,8 +45,8 @@ const Connections = () => {
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (
           <p className="text-gray-600">Loading connections...</p>
-        ) : connections.length > 0 ? (
-          connections.map((user) => (
+        ) : cleaned.length > 0 ? (
+          cleaned.map((user) => (
             <UserCardDetailed key={user._id} user={user} />
           ))
         ) : (

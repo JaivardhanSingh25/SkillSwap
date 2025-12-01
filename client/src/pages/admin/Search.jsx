@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {UserCard} from "../../components/admin/UserCard"; // <-- card component
+import api from "../../api/axios";
 
 const Search = () => {
   const [skill, setSkill] = useState("");
@@ -9,13 +10,14 @@ const Search = () => {
 
   const handleSearch = async () => {
     setLoading(true);
+    console.log(api.defaults.headers.common['Authorization'])
 
     try {
-      const res = await fetch(
-        `http://localhost:5000/api/users/search?skill=${skill}&location=${location}`
+      const {data} = await api.get(
+        `/api/user/search?skill=${skill}&location=${location}`  // the query string is only written in the front end.. no need to mention it in the backend
       );
 
-      const data = await res.json();
+      
       setResults(data.users || []);  // depends on your backend JSON
     } catch (error) {
       console.error("Search failed", error);

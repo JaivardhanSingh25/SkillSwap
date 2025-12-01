@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import api from "../../api/axios";
 
 const EditProfile = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ const EditProfile = () => {
   const [newSkillWanted, setNewSkillWanted] = useState("");
   const [loading, setLoading] = useState(false);
 
+
+  const userID = localStorage.getItem('userID');
   // Fetch current user data on mount
   useEffect(() => {
     fetchUserData();
@@ -22,17 +25,17 @@ const EditProfile = () => {
 
   const fetchUserData = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/user/profile");
-      const data = await res.json();
+      const {data} = await api.get(`/api/user/${userID}`);    // this gives us the user details 
+      console.log(data)
       
       setFormData({
-        name: data.name || "",
-        age: data.age || "",
-        email: data.email || "",
-        phone: data.phone || "",
-        location: data.location || "",
-        skillKnown: data.skillKnown || [],
-        skillWanted: data.skillWanted || []
+        name: data.user.name || "",
+        age: data.user.age || "",
+        email: data.user.email || "",
+        phone: data.user.phone || "",
+        location: data.user.location || "",
+        skillKnown: data.user.skillKnown || [],
+        skillWanted: data.user.skillWanted || []
       });
     } catch (error) {
       console.error("Failed to fetch user data", error);
@@ -91,15 +94,9 @@ const EditProfile = () => {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:5000/api/user/update", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      });
+      const {data} = await api.put(`/api/user/${userID}`, formData)
 
-      if (res.ok) {
+      if (data.success) {
         alert("Profile updated successfully!");
       }
     } catch (error) {
