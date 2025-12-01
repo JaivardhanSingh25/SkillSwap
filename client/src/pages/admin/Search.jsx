@@ -10,7 +10,8 @@ const Search = () => {
 
   const handleSearch = async () => {
     setLoading(true);
-    console.log(api.defaults.headers.common['Authorization'])
+    
+    //console.log(api.defaults.headers.common['Authorization'])
 
     try {
       const {data} = await api.get(
@@ -21,6 +22,7 @@ const Search = () => {
       setResults(data.users || []);  // depends on your backend JSON
     } catch (error) {
       console.error("Search failed", error);
+      toast.error("Search failed");
     }
 
     setLoading(false);

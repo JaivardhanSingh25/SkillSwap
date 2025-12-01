@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { UserCardDetailed } from "../../components/admin/DetailedCard";
 import api from "../../api/axios";
+import toast from "react-hot-toast";
 
 const Connections = () => {
   const [cleaned, setCleaned] = useState([]);
@@ -17,7 +18,7 @@ const Connections = () => {
       const userID = localStorage.getItem('userID')
 
       const {data} = await api.get(`/api/request/accepted/${userID}`)
-      console.log(data)
+      //console.log(data)
       
       const cleaned = data.connections;
       
@@ -28,6 +29,7 @@ const Connections = () => {
     
     catch (error) {
       console.error("Failed to fetch connections", error);
+      toast.error("Failed to fetch connections")
     }
     setLoading(false);
   };

@@ -30,12 +30,9 @@ export const UserCardDetailed = ({ user }) => {
           <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Skills Offered</p>
           <div className="flex flex-wrap gap-2">
             {/* Map through user.skillKnown array and display first 4 */}
-            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-              React
-            </span>
-            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
-              JavaScript
-            </span>
+            {user.skillKnown.map((skill) => <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+              {skill}
+            </span>)}
             {/* If more than 4 skills, show "+X more" badge */}
           </div>
         </div>
@@ -45,12 +42,9 @@ export const UserCardDetailed = ({ user }) => {
           <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Looking to Learn</p>
           <div className="flex flex-wrap gap-2">
             {/* Map through user.skillWanted array and display first 4 */}
-            <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
-              Python
-            </span>
-            <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-medium">
-              AWS
-            </span>
+            {user.skillWanted.map((skill) => <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-medium">
+              {skill}
+            </span>)}
             {/* If more than 4 skills, show "+X more" badge */}
           </div>
         </div>

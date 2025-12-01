@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { UserCard } from "../../components/admin/UserCard";
 import api from "../../api/axios";
+import toast from "react-hot-toast";
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
@@ -25,6 +26,7 @@ const Requests = () => {
     
     catch (error) {
       console.error("Failed to fetch requests", error);
+      toast.error("Failed to fetch requests");
     }
     setLoading(false);
   };
@@ -38,10 +40,11 @@ const Requests = () => {
       if (data.success) {
         // Remove from requests list after accepting
         setRequests(requests.filter(request => request._id !== requestId));
-        alert("Request accepted!");
+        toast.success("Request accepted!");
       }
     } catch (error) {
       console.error("Failed to accept request", error);
+      toast.error("Failed to accept request");
     }
   };
 
@@ -53,10 +56,11 @@ const Requests = () => {
       if (data.success) {
         // Remove from requests list after rejecting
         setRequests(requests.filter(request => request._id !== requestId));
-        alert("Request rejected!");
+        toast.success("Request rejected!");
       }
     } catch (error) {
       console.error("Failed to reject request", error);
+      toast.error("Failed to reject request");
     }
   };
 

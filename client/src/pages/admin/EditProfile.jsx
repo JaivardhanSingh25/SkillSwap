@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import api from "../../api/axios";
+import toast from 'react-hot-toast';
 
 const EditProfile = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,7 @@ const EditProfile = () => {
   const fetchUserData = async () => {
     try {
       const {data} = await api.get(`/api/user/${userID}`);    // this gives us the user details 
-      console.log(data)
+      //console.log(data)
       
       setFormData({
         name: data.user.name || "",
@@ -38,6 +39,7 @@ const EditProfile = () => {
         skillWanted: data.user.skillWanted || []
       });
     } catch (error) {
+      toast.error(error.message)
       console.error("Failed to fetch user data", error);
     }
   };
@@ -97,11 +99,11 @@ const EditProfile = () => {
       const {data} = await api.put(`/api/user/${userID}`, formData)
 
       if (data.success) {
-        alert("Profile updated successfully!");
+        toast.success("Profile updated successfully!");
       }
     } catch (error) {
       console.error("Failed to update profile", error);
-      alert("Failed to update profile");
+      toast.error("Failed to update profile");
     }
 
     setLoading(false);
