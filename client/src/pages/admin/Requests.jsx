@@ -21,6 +21,8 @@ const Requests = () => {
     try {
       const {data} = await api.get(`/api/request/pending/${userID}`);
       setRequests(data.requests || []);
+      //console.log()
+
     } 
     
     
@@ -77,30 +79,31 @@ const Requests = () => {
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {loading ? (
           <p className="text-gray-600">Loading requests...</p>
-        ) : requests.length > 0 ? (
-          requests.map((request) => (
-            <div key={request._id} className="relative">
-              <UserCard user={request.requestFrom} />
-              
-              {/* Accept/Reject Buttons Overlay */}
-              <div className="flex gap-2 mt-4">
-                <button
-                  onClick={() => handleAccept(request._id)}
-                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
-                >
-                  Accept
-                </button>
-                <button
-                  onClick={() => handleReject(request._id)}
-                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
-                >
-                  Reject
-                </button>
-              </div>
-            </div>
-          ))
         ) : (
-          <p className="text-gray-600">No pending requests.</p>
+          requests.length > 0 ? (
+            requests.map((request) => (
+              <div key={request._id} className="relative">
+                <UserCard user={request.requestFrom} />
+
+                <div className="flex gap-2 mt-4">
+                  <button
+                    onClick={() => handleAccept(request._id)}
+                    className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-medium"
+                  >
+                    Accept
+                  </button>
+                  <button
+                    onClick={() => handleReject(request._id)}
+                    className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition font-medium"
+                  >
+                    Reject
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-600">No pending requests.</p>
+          )
         )}
       </div>
 

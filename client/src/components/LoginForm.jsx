@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import api from '../api/axios';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../slices/authSlice';
+import { loginSuccess } from '../slices/authSlice'; 
+import toast from 'react-hot-toast';
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({
@@ -37,6 +38,8 @@ const LoginForm = () => {
 
     catch(err){
       console.log(err.message)
+      toast.error("Login Failed")
+
     }
     
     //console.log("Login payload:", formData);
