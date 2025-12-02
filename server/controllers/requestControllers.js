@@ -104,7 +104,7 @@ return res.status(200).json({ success: true, connections: user.connections });
 export const getReq = async (req, res) => {
     try{
         const {userId} = req.params;
-        const requests = await Request.find({requestTo: userId, accepted: false}).populate("requestFrom", "name email skillKnown");
+        const requests = await Request.find({requestTo: userId, accepted: false}).populate("requestFrom", "name email age location skillKnown skillWanted");
         // even if the requests are empty... we will handle it in the frontend during rendering
         return res.status(200).json({
             success: true,
