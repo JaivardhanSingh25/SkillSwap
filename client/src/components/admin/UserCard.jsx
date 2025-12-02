@@ -1,5 +1,6 @@
 import React from 'react';
 import api from '../../api/axios';
+import toast from 'react-hot-toast';
 
 // DEFAULT CARD - For Search & Requests
 export const UserCard = ({ user }) => {
@@ -10,13 +11,13 @@ export const UserCard = ({ user }) => {
   const send = localStorage.getItem("userID");
 
   const requestHandler = async () => {
-    console.log(recieve);
-    console.log(send);
+    //console.log(recieve);
+    //console.log(send);
     try {
       const { data } = await api.post("/api/request", { send, recieve });
-      console.log("Request sent:", data);
+      //console.log("Request sent:", data);
     } catch (error) {
-      console.error("Failed to send request:", error);
+      //console.error("Failed to send request:", error);
     }
   };
 
