@@ -67,13 +67,38 @@ export const updateUserInfo = async (req, res) => {
 
 export const searchUsers = async (req, res) => {
     try{
+
+        
+
+        let users;
         const {skill, location} = req.query;
-        const arraySkills = skill.split(',').map(s => s.trim());               // trim has been used so that there are no spaces.... used in comparison
-        const users = await User.find({
+        
+        
+        // Though it wasnt necessary, but still it prevents unecessary queries... like in the case where both are empty.... thats the case where it proves to be okay... you know...
+        if ((!skill || skill.trim() === "") && (!location || location.trim() === "")) {
+            return res.status(400).json({ success: false, message: "Provide skill or location" });
+        }
+        if (!skill || skill.trim().length <= 0){
+          users = await User.find({
+            location: location,})
+        }                                                                        
+        
+        else if (!location || location.trim().length <= 0) {
+          const arraySkills = skill.split(',').map(s => s.trim());
+          users = await User.find({
+            skillKnown: {$in: arraySkills}})
+        }           
+
+        else {
+          const arraySkills = skill.split(',').map(s => s.trim());               
+          users = await User.find({
             location: location,
-            skillKnown: { $in: arraySkills }                                    // isme bas wo hai ki skillKnown ka koi element arraySkills mei ho tab..
+            skillKnown: { $in: arraySkills }                                    
 
         })
+        }
+        
+        
         if (users.length === 0){
             return res.status(404).json({
                 success: false,
