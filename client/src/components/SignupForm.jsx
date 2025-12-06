@@ -36,7 +36,7 @@ const SignupForm = () => {
 
     try {
     const { data } = await api.post('/api/auth/signup', payload)
-    toast.success(data.message)
+    toast.success(data.message) 
     setFormData({
     name: "",
     age: "",
